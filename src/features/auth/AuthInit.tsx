@@ -7,9 +7,13 @@ interface AuthInitProps {
 }
 
 export const AuthInit = ({ children }: AuthInitProps) => {
-  const { token, setToken, _hasHydrated } = useAuthStore()
+  const { token, setToken, _hasHydrated, setHasHydrated } = useAuthStore()
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+
+  useEffect(() => {
+    setHasHydrated(true)
+  }, [])
 
   useEffect(() => {
     const initializeAuth = async () => {
