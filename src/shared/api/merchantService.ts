@@ -1,11 +1,11 @@
-import { api } from '../lib/fetchWrapper'
-import type { MerchantListParams, Merchant } from '@/features/merchants/types'
+import { authApi } from '../lib/fetchWrapper'
+import type { MerchantListParams, Merchant, Product } from '@/features/merchants/types'
 
 export const merchantService = {
   /**
    * 가맹점 목록 조회
    */
-  getMerchants: async (params: MerchantListParams = {}): Promise<Merchant[]> => {
+  getMerchantList: async (params: MerchantListParams = {}): Promise<Merchant[]> => {
     const searchParams = new URLSearchParams()
     
     if (params.query) {
@@ -18,13 +18,20 @@ export const merchantService = {
     
     const url = `/api/merchants${searchParams.toString() ? `?${searchParams.toString()}` : ''}`
     
-    return api.get<Merchant[]>(url)
+    return authApi.get<Merchant[]>(url)
   },
 
   /**
-   * 가맹점 상세 조회
+   * 가맹점 상세 정보 조회
    */
-  getMerchant: async (id: string): Promise<Merchant> => {
-    return api.get<Merchant>(`/api/merchants/${id}`)
+  getMerchantDetail: async (id: string): Promise<Merchant> => {
+    return authApi.get<Merchant>(`/api/merchants/${id}`)
+  },
+
+  /**
+   * 가맹점 상품 목록 조회
+   */
+  getMerchantItems: async (id: string): Promise<Product[]> => {
+    return authApi.get<Product[]>(`/api/merchants/${id}/items`)
   },
 }
