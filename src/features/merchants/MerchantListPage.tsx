@@ -1,25 +1,31 @@
-import { useState } from 'react'
+import { useState, useMemo } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { 
   SearchBar, 
   SortDropdown, 
   MerchantCard, 
   EmptyState, 
   MerchantListSkeleton,
-  SortOption 
 } from './components'
-import { Merchant } from './types'
+import { useMerchants } from './hooks/useMerchants'
+import type { Merchant, SortOption } from './types'
 
 export const MerchantListPage = () => {
+  const navigate = useNavigate()
   const [searchQuery, setSearchQuery] = useState('')
   const [sortBy, setSortBy] = useState<SortOption>('name')
   
-  // 임시 상태들 (나중에 API 연동 시 제거)
-  const [isLoading] = useState(false)
-  const [merchants] = useState<Merchant[]>([])
+  // API 파라미터 메모이제이션
+  const apiParams = useMemo(() => ({
+    query: searchQuery.trim() || undefined,
+    sort: sortBy,
+  }), [searchQuery, sortBy])
+  
+  // React Query로 가맹점 목록 조회
+  const { data: merchants = [], isLoading, error } = useMerchants(apiParams)
 
   const handleMerchantClick = (merchant: Merchant) => {
-    console.log('가맹점 상세로 이동:', merchant.id)
-    //TODO: 가맹점 상세 페이지로 라우팅
+    navigate(`/merchants/${merchant.id}`)
   }
 
   const handleSearchReset = () => {
@@ -68,7 +74,20 @@ export const MerchantListPage = () => {
 
         {/* 컨텐츠 영역 */}
         <div className="min-h-96">
-          {isLoading ? (
+          {error ? (
+            <EmptyState 
+              title="오류가 발생했습니다"
+              description="가맹점 목록을 불러오는 중 문제가 발생했습니다. 잠시 후 다시 시도해주세요."
+              action={
+                <button
+                  onClick={() => window.location.reload()}
+                  className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors"
+                >
+                  새로고침
+                </button>
+              }
+            />
+          ) : isLoading ? (
             <MerchantListSkeleton count={6} />
           ) : merchants.length === 0 ? (
             <EmptyState 
@@ -102,14 +121,7 @@ export const MerchantListPage = () => {
           )}
         </div>
 
-        {/* 페이지네이션 영역 (추후 구현) */}
-        {merchants.length > 0 && (
-          <div className="mt-12 flex justify-center">
-            <div className="text-gray-500 text-sm">
-              페이지네이션은 추후 구현 예정
-            </div>
-          </div>
-        )}
+      
       </div>
     </div>
   )

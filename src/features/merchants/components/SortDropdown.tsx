@@ -1,4 +1,4 @@
-export type SortOption = 'name' | 'distance' | 'rating' | 'newest'
+import type { SortOption } from '../types'
 
 interface SortDropdownProps {
   value: SortOption

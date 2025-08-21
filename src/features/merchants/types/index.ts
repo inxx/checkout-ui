@@ -1,19 +1,20 @@
 export interface Merchant {
   id: string
   name: string
-  description: string
-  address: string
-  distance?: number
-  rating: number
-  reviewCount: number
-  imageUrl?: string
   category: string
-  isOpen: boolean
-  openingHours?: string
+  distanceKm: number
+  rating: number
+  logoUrl?: string
+}
+
+export type SortOption = 'name' | 'rating' | 'distance'
+
+export interface MerchantListParams {
+  query?: string
+  sort?: SortOption
 }
 
 export interface MerchantListResponse {
   merchants: Merchant[]
-  totalCount: number
-  hasNext: boolean
+  total: number
 }

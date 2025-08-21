@@ -1,9 +1,8 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import { Providers } from './shared/lib/Providers'
-import HomePage from './pages/HomePage'
-import MerchantsPage from './pages/MerchantsPage'
+import MainPage from './pages/MainPage'
 import MerchantDetailPage from './pages/MerchantDetailPage'
 import './index.css'
 
@@ -25,9 +24,10 @@ enableMocking().then(() => {
       <Providers>
         <BrowserRouter>
           <Routes>
-            <Route path="/" element={<HomePage />} />
-            <Route path="/merchants" element={<MerchantsPage />} />
+            <Route path="/" element={<MainPage />} />
+            <Route path="/merchants" element={<Navigate to="/" replace />} />
             <Route path="/merchants/:id" element={<MerchantDetailPage />} />
+            <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
         </BrowserRouter>
       </Providers>
