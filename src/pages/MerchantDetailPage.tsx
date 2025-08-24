@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { useParams, useNavigate } from 'react-router-dom'
 import { 
   MerchantDetailHeader,
   MerchantInfo,
@@ -7,11 +7,14 @@ import {
   PurchaseButton
 } from '../features/merchants/components'
 import { useMerchant, useMerchantItems } from '../features/merchants/hooks/useMerchants'
+import { orderService } from '../shared/api/orderService'
 import type { SelectedProduct } from '../features/merchants/types'
 
 export default function MerchantDetailPage() {
   const { id } = useParams<{ id: string }>()
+  const navigate = useNavigate()
   const [selectedProducts, setSelectedProducts] = useState<SelectedProduct[]>([])
+  const [isPaymentProcessing, setIsPaymentProcessing] = useState(false)
 
   // API 호출
   const { data: merchant, isLoading: merchantLoading, error: merchantError } = useMerchant(id || '')
@@ -32,12 +35,63 @@ export default function MerchantDetailPage() {
   }
 
   // 구매하기 핸들러
-  const handlePurchase = () => {
-    if (selectedProducts.length === 0) return
+  const handlePurchase = async () => {
+    if (selectedProducts.length === 0 || !merchant) return
     
-    // 구매 로직 구현 예정
-    alert(`${selectedProducts.length}개 상품 구매 진행`)
-    console.log('선택된 상품들:', selectedProducts)
+    setIsPaymentProcessing(true)
+    console.log('[Payment] Starting payment process for merchant:', merchant.id)
+    
+    // 총 금액 계산
+    const totalAmount = selectedProducts.reduce(
+      (sum, item) => sum + (item.product.price * item.quantity), 
+      0
+    )
+    
+    try {
+      // 실제 결제 API 호출
+      console.log('[Payment] Calling order API with amount:', totalAmount)
+      
+      const orderResponse = await orderService.createOrder({
+        merchantId: merchant.id,
+        currency: 'KRW',
+        amount: totalAmount
+      })
+      
+      console.log('[Payment] Order API response:', orderResponse)
+      
+      const paymentResult = {
+        paymentId: `PAY_${Date.now()}`,
+        status: orderResponse.status,
+        totalAmount,
+        merchantName: merchant.name
+      }
+      
+      setIsPaymentProcessing(false)
+      
+      // API 응답의 status에 따라 페이지 이동
+      const statusRoute = orderResponse.status.toLowerCase()
+      console.log(`[Payment] Navigating to: /payment/result/${statusRoute}`)
+      
+      navigate(`/payment/result/${statusRoute}`, {
+        state: paymentResult
+      })
+    } catch (error) {
+      console.error('[Payment] Order API failed:', error)
+      setIsPaymentProcessing(false)
+      
+      // API 호출 실패 시 declined 페이지로 이동
+      const paymentResult = {
+        paymentId: `PAY_${Date.now()}`,
+        status: 'DECLINED',
+        totalAmount,
+        merchantName: merchant.name,
+        error: 'Payment processing failed'
+      }
+      
+      navigate('/payment/result/declined', {
+        state: paymentResult
+      })
+    }
   }
 
   // 로딩 상태
@@ -84,6 +138,7 @@ export default function MerchantDetailPage() {
       <PurchaseButton
         selectedProducts={selectedProducts}
         onPurchase={handlePurchase}
+        disabled={isPaymentProcessing}
       />
     </div>
   )
