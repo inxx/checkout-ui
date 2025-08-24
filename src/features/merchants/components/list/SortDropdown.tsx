@@ -1,3 +1,4 @@
+import { useTranslation } from 'react-i18next'
 import type { SortOption } from '../types'
 
 interface SortDropdownProps {
@@ -5,13 +6,14 @@ interface SortDropdownProps {
   onChange: (value: SortOption) => void
 }
 
-const sortOptions = [
-  { value: 'name' as const, label: '이름순' },
-  { value: 'distance' as const, label: '거리순' },
-  { value: 'rating' as const, label: '평점순' },
-]
-
 export const SortDropdown = ({ value, onChange }: SortDropdownProps) => {
+  const { t } = useTranslation('common')
+
+  const sortOptions = [
+    { value: 'name' as const, label: t('merchants.sort.name') },
+    { value: 'distance' as const, label: t('merchants.sort.distance') },
+    { value: 'rating' as const, label: t('merchants.sort.rating') },
+  ]
   return (
     <div className="relative">
       <select

@@ -1,4 +1,6 @@
-import { useState } from 'react'
+import React from 'react'
+import { useTranslation } from 'react-i18next'
+import { useFormatting } from '../../../../hooks/useFormatting'
 import type { Product, SelectedProduct } from '../types'
 
 interface ProductListProps {
@@ -16,6 +18,8 @@ export const ProductList = ({
   isLoading = false,
   error = null 
 }: ProductListProps) => {
+  const { t } = useTranslation('common')
+  const { formatCurrency } = useFormatting()
   // 상품이 선택되었는지 확인하는 함수
   const isProductSelected = (productId: string) => {
     return selectedProducts.some(item => item.product.id === productId)
@@ -31,13 +35,13 @@ export const ProductList = ({
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
             </svg>
           </div>
-          <h3 className="text-lg font-medium text-gray-900 mb-2">상품을 불러올 수 없습니다</h3>
+          <h3 className="text-lg font-medium text-gray-900 mb-2">{t('products.notFound')}</h3>
           <p className="text-gray-500 text-sm mb-4">{error}</p>
           <button 
             onClick={() => window.location.reload()}
             className="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 transition-colors text-sm"
           >
-            다시 시도
+{t('common.retry')}
           </button>
         </div>
       </div>
@@ -49,7 +53,7 @@ export const ProductList = ({
     return (
       <div className="bg-white">
         <div className="p-6">
-          <h3 className="text-lg font-semibold text-gray-900 mb-4">상품 목록</h3>
+          <h3 className="text-lg font-semibold text-gray-900 mb-4">{t('products.title')}</h3>
         </div>
         <div className="space-y-1">
           {Array.from({ length: 5 }).map((_, i) => (
@@ -73,7 +77,7 @@ export const ProductList = ({
       {/* 상품 목록 헤더 */}
       <div className="p-6 border-b border-gray-100">
         <h3 className="text-lg font-semibold text-gray-900">
-          상품 목록 ({products.length}개)
+          {t('products.title')} ({t('products.count', { count: products.length })})
         </h3>
       </div>
 
@@ -86,7 +90,7 @@ export const ProductList = ({
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2M4 13h2m8-8v2m0 0V5a2 2 0 012-2h2m-2 2a2 2 0 012 2v2M9 7h6" />
               </svg>
             </div>
-            <p className="text-lg font-medium text-gray-900 mb-1">등록된 상품이 없습니다</p>
+            <p className="text-lg font-medium text-gray-900 mb-1">{t('products.empty')}</p>
           </div>
         ) : (
           <div className="space-y-1">
@@ -129,7 +133,7 @@ export const ProductList = ({
                       <span className={`text-lg font-semibold ml-4 ${
                         !product.isAvailable ? 'text-gray-400' : 'text-blue-600'
                       }`}>
-                        {product.price.toLocaleString()}원
+                        {formatCurrency(product.price, product.currency)}
                       </span>
                     </div>
                     
@@ -143,7 +147,7 @@ export const ProductList = ({
                     
                     {!product.isAvailable && (
                       <span className="inline-block mt-1 px-2 py-1 text-xs bg-gray-200 text-gray-500 rounded">
-                        품절
+{t('products.unavailable')}
                       </span>
                     )}
                   </div>

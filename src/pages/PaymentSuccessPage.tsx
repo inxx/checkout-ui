@@ -1,5 +1,7 @@
 import { useLocation, useNavigate } from 'react-router-dom'
 import { useEffect } from 'react'
+import { useTranslation } from 'react-i18next'
+import { useFormatting } from '../hooks/useFormatting'
 
 interface PaymentResultState {
   paymentId: string
@@ -11,6 +13,8 @@ interface PaymentResultState {
 export default function PaymentSuccessPage() {
   const navigate = useNavigate()
   const location = useLocation()
+  const { t } = useTranslation('common')
+  const { formatCurrency, formatDate } = useFormatting()
   const state = location.state as PaymentResultState | null
 
   useEffect(() => {
@@ -27,9 +31,6 @@ export default function PaymentSuccessPage() {
     navigate('/')
   }
 
-  const handleGoBack = () => {
-    navigate(-2) // 결제 페이지를 건너뛰고 상세 페이지로
-  }
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -37,7 +38,7 @@ export default function PaymentSuccessPage() {
       <div className="bg-white border-b border-gray-200">
         <div className="max-w-md mx-auto px-4 py-4">
           <div className="flex items-center justify-center">
-            <h1 className="text-lg font-semibold text-gray-900">결제 완료</h1>
+            <h1 className="text-lg font-semibold text-gray-900">{t('payment.success.title')}</h1>
           </div>
         </div>
       </div>
@@ -50,25 +51,25 @@ export default function PaymentSuccessPage() {
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
             </svg>
           </div>
-          <h2 className="text-xl font-bold text-gray-900 mb-2">결제가 완료되었습니다!</h2>
-          <p className="text-gray-600 mb-4">주문이 성공적으로 처리되었습니다.</p>
+          <h2 className="text-xl font-bold text-gray-900 mb-2">{t('payment.success.message')}</h2>
+          <p className="text-gray-600 mb-4">{t('payment.success.description')}</p>
           
           <div className="bg-green-50 border border-green-200 rounded-lg p-4">
             <div className="flex justify-between items-center mb-2">
-              <span className="text-sm text-gray-600">주문 번호</span>
+              <span className="text-sm text-gray-600">{t('payment.success.orderNumber')}</span>
               <span className="text-sm font-mono text-gray-900">{paymentId}</span>
             </div>
             <div className="flex justify-between items-center mb-2">
-              <span className="text-sm text-gray-600">주문 일시</span>
-              <span className="text-sm text-gray-900">{new Date().toLocaleString('ko-KR')}</span>
+              <span className="text-sm text-gray-600">{t('payment.success.orderDate')}</span>
+              <span className="text-sm text-gray-900">{formatDate(new Date())}</span>
             </div>
             <div className="flex justify-between items-center mb-2">
-              <span className="text-sm text-gray-600">가맹점</span>
+              <span className="text-sm text-gray-600">{t('payment.success.merchant')}</span>
               <span className="text-sm text-gray-900">{merchantName}</span>
             </div>
             <div className="flex justify-between items-center">
-              <span className="text-sm text-gray-600">주문 금액</span>
-              <span className="text-lg font-bold text-green-600">{totalAmount.toLocaleString()}원</span>
+              <span className="text-sm text-gray-600">{t('payment.success.amount')}</span>
+              <span className="text-lg font-bold text-green-600">{formatCurrency(totalAmount, 'KRW')}</span>
             </div>
             
           </div>
@@ -80,7 +81,7 @@ export default function PaymentSuccessPage() {
             onClick={handleGoHome}
             className="w-full py-3 px-4 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 transition-colors"
           >
-            홈으로 가기
+{t('common.home')}
           </button>
           
         </div>

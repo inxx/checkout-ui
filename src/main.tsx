@@ -8,6 +8,7 @@ import MerchantDetailPage from './pages/MerchantDetailPage'
 import PaymentSuccessPage from './pages/PaymentSuccessPage'
 import PaymentFailedPage from './pages/PaymentFailedPage'
 import PaymentPendingPage from './pages/PaymentPendingPage'
+import './lib/i18n'
 import './index.css'
 
 // MSW 워커 시작

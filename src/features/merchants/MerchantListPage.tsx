@@ -1,5 +1,6 @@
 import { useState, useMemo } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 import { 
   SearchBar, 
   SortDropdown, 
@@ -7,11 +8,13 @@ import {
   EmptyState, 
   MerchantListSkeleton,
 } from './components'
+import { LanguageSelector } from '../../components/LanguageSelector'
 import { useMerchants } from './hooks/useMerchants'
 import type { Merchant, SortOption } from './types'
 
 export const MerchantListPage = () => {
   const navigate = useNavigate()
+  const { t } = useTranslation('common')
   const [searchQuery, setSearchQuery] = useState('')
   const [sortBy, setSortBy] = useState<SortOption>('name')
   
@@ -34,18 +37,26 @@ export const MerchantListPage = () => {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <div className="container mx-auto px-4 py-8">
-        {/* 헤더 */}
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">가맹점 목록</h1>
+      {/* 헤더 */}
+      <header className="sticky top-0 z-10 bg-white border-b border-gray-200">
+        <div className="container mx-auto px-4">
+          <div className="flex items-center justify-between h-14">
+            <h1 className="text-lg font-semibold text-gray-900 truncate">
+              {t('merchants.title')}
+            </h1>
+            <LanguageSelector />
+          </div>
         </div>
+      </header>
+
+      <div className="container mx-auto px-4 py-8">
 
         {/* 검색 */}
         <div className="bg-white rounded-lg shadow-sm p-6 mb-8">
           <SearchBar 
             value={searchQuery}
             onChange={setSearchQuery}
-            placeholder="가맹점명 검색"
+            placeholder={t('merchants.search')}
           />
         </div>
 
@@ -53,11 +64,11 @@ export const MerchantListPage = () => {
         <div className="flex items-center justify-between mb-6">
           <div className="flex items-center gap-2">
             <h2 className="text-xl font-semibold text-gray-900">
-              {searchQuery ? `'${searchQuery}' 검색 결과` : '전체 가맹점'}
+              {searchQuery ? `'${searchQuery}' ${t('merchants.searchResult')}` : t('merchants.all')}
             </h2>
             {!isLoading && (
               <span className="text-gray-500 text-sm">
-                ({merchants.length}개)
+                ({t('merchants.count', { count: merchants.length })})
               </span>
             )}
           </div>
@@ -76,14 +87,13 @@ export const MerchantListPage = () => {
         <div className="min-h-96">
           {error ? (
             <EmptyState 
-              title="오류가 발생했습니다"
-              description="가맹점 목록을 불러오는 중 문제가 발생했습니다. 잠시 후 다시 시도해주세요."
+              title={t('common.error.title')}
               action={
                 <button
                   onClick={() => window.location.reload()}
                   className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors"
                 >
-                  새로고침
+                  {t('common.error.refresh')}
                 </button>
               }
             />
@@ -91,19 +101,14 @@ export const MerchantListPage = () => {
             <MerchantListSkeleton count={6} />
           ) : merchants.length === 0 ? (
             <EmptyState 
-              title={searchQuery ? "검색 결과가 없습니다" : "등록된 가맹점이 없습니다"}
-              description={
-                searchQuery 
-                  ? "다른 검색어를 시도하거나 필터를 조정해보세요."
-                  : "곧 다양한 가맹점이 추가될 예정입니다."
-              }
+              title={searchQuery ? t('merchants.empty.noResults') : t('merchants.empty.noMerchants')}
               action={
                 searchQuery ? (
                   <button
                     onClick={handleSearchReset}
                     className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors"
                   >
-                    모든 가맹점 보기
+                    {t('merchants.empty.showAll')}
                   </button>
                 ) : undefined
               }
@@ -120,8 +125,6 @@ export const MerchantListPage = () => {
             </div>
           )}
         </div>
-
-      
       </div>
     </div>
   )

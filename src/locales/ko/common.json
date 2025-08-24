@@ -1,0 +1,68 @@
+{
+  "merchants": {
+    "title": "가맹점 목록",
+    "search": "가맹점 검색",
+    "searchResult": "검색 결과",
+    "all": "전체 가맹점",
+    "sort": {
+      "name": "이름순",
+      "rating": "평점순", 
+      "distance": "거리순"
+    },
+    "notFound": "가맹점을 찾을 수 없습니다",
+    "tryAgain": "다시 시도해 주세요",
+    "empty": {
+      "noResults": "검색 결과가 없습니다",
+      "noMerchants": "등록된 가맹점이 없습니다",
+      "showAll": "모든 가맹점 보기"
+    },
+    "count_one": "{{count}}개",
+    "count_other": "{{count}}개"
+  },
+  "products": {
+    "title": "상품 목록",
+    "notFound": "상품을 불러올 수 없습니다",
+    "empty": "등록된 상품이 없습니다",
+    "unavailable": "품절",
+    "count_one": "{{count}}개",
+    "count_other": "{{count}}개"
+  },
+  "payment": {
+    "purchase": "구매하기",
+    "processing": "결제 처리 중",
+    "success": {
+      "title": "결제 완료",
+      "message": "결제가 완료되었습니다!",
+      "description": "주문이 성공적으로 처리되었습니다.",
+      "orderNumber": "주문 번호",
+      "orderDate": "주문 일시",
+      "merchant": "가맹점",
+      "amount": "주문 금액"
+    },
+    "pending": {
+      "title": "결제 처리 중",
+      "message": "결제 승인을 기다리고 있습니다",
+      "description": "잠시만 기다려 주세요. 결제가 처리 중입니다.",
+      "paymentNumber": "결제 번호",
+      "merchant": "가맹점",
+      "amount": "결제 금액"
+    },
+    "failed": {
+      "title": "결제 실패",
+      "message": "결제에 실패했습니다",
+      "description": "다시 시도하거나 다른 결제 수단을 선택해 주세요.",
+      "orderNumber": "주문 번호",
+      "merchant": "가맹점",
+      "amount": "주문 금액",
+      "reason": "실패 사유"
+    }
+  },
+  "common": {
+    "retry": "다시 시도",
+    "home": "홈으로 가기",
+    "error": {
+      "title": "오류가 발생했습니다",
+      "refresh": "새로고침"
+    }
+  }
+}

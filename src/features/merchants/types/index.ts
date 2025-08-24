@@ -8,6 +8,7 @@ export interface Merchant {
   description?: string
   phone?: string
   address?: string
+  paymentMethod?: 'card' | 'virtual_account' // 결제 방식 플래그
 }
 
 export type SortOption = 'name' | 'rating' | 'distance'

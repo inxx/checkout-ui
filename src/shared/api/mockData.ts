@@ -30,7 +30,8 @@ export const mockMerchants: Merchant[] = [
     rating: 3.9,
     description: '한국 대표 패스트푸드 브랜드, 불고기버거로 유명합니다.',
     phone: '02-3456-7890',
-    address: '서울특별시 서대문구 신촌로 345'
+    address: '서울특별시 서대문구 신촌로 345',
+    paymentMethod: 'virtual_account'
   },
   {
     id: '4',
@@ -209,7 +210,8 @@ export const mockProducts: Record<string, Product[]> = {
   '1': [
     { id: '1', name: '아메리카노', price: 4500, currency: 'KRW', description: '깔끔하고 진한 에스프레소의 맛', isAvailable: true, category: '커피' },
     { id: '2', name: '카페라떼', price: 5000, currency: 'KRW', description: '부드러운 우유와 에스프레소의 조화', isAvailable: true, category: '커피' },
-    { id: '3', name: '바닐라 라떼', price: 5500, currency: 'KRW', description: '달콤한 바닐라 시럽이 들어간 라떼', isAvailable: false, category: '커피' }
+    { id: '3', name: '바닐라 라떼', price: 5500, currency: 'KRW', description: '달콤한 바닐라 시럽이 들어간 라떼', isAvailable: false, category: '커피' },
+    { id: '4', name: '프리미엄 원두 세트', price: 95000, currency: 'KRW', description: '엄선된 프리미엄 원두 1kg 세트', isAvailable: true, category: '원두' }
   ],
   '2': [],
   '3': [

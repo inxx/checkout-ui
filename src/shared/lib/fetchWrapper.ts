@@ -1,4 +1,4 @@
-export interface ApiResponse<T = any> {
+export interface ApiResponse<T = unknown> {
   data: T
   success: boolean
   message?: string
@@ -98,7 +98,7 @@ class FetchWrapper {
             }
             
             // 토큰 재발급 완료 대기
-            const newToken = await this.refreshPromise!
+            await this.refreshPromise!
             console.log('[API] Token refresh completed, retrying request...')
             
             this.isRefreshing = false
@@ -147,7 +147,7 @@ class FetchWrapper {
     return this.request<T>(endpoint, { ...options, method: 'GET' })
   }
 
-  async post<T>(endpoint: string, data?: any, options?: FetchOptions): Promise<T> {
+  async post<T>(endpoint: string, data?: unknown, options?: FetchOptions): Promise<T> {
     return this.request<T>(endpoint, {
       ...options,
       method: 'POST',
@@ -155,7 +155,7 @@ class FetchWrapper {
     })
   }
 
-  async put<T>(endpoint: string, data?: any, options?: FetchOptions): Promise<T> {
+  async put<T>(endpoint: string, data?: unknown, options?: FetchOptions): Promise<T> {
     return this.request<T>(endpoint, {
       ...options,
       method: 'PUT',
@@ -167,7 +167,7 @@ class FetchWrapper {
     return this.request<T>(endpoint, { ...options, method: 'DELETE' })
   }
 
-  async patch<T>(endpoint: string, data?: any, options?: FetchOptions): Promise<T> {
+  async patch<T>(endpoint: string, data?: unknown, options?: FetchOptions): Promise<T> {
     return this.request<T>(endpoint, {
       ...options,
       method: 'PATCH',

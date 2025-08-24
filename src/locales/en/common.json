@@ -1,0 +1,68 @@
+{
+  "merchants": {
+    "title": "Merchants",
+    "search": "Search merchants",
+    "searchResult": "Search Results",
+    "all": "All Merchants",
+    "sort": {
+      "name": "By Name",
+      "rating": "By Rating",
+      "distance": "By Distance"
+    },
+    "notFound": "Merchant not found",
+    "tryAgain": "Please try again",
+    "empty": {
+      "noResults": "No search results found",
+      "noMerchants": "No merchants registered",
+      "showAll": "Show All Merchants"
+    },
+    "count_one": "{{count}} merchant",
+    "count_other": "{{count}} merchants"
+  },
+  "products": {
+    "title": "Products",
+    "notFound": "Unable to load products",
+    "empty": "No products registered",
+    "unavailable": "Out of stock",
+    "count_one": "{{count}} item",
+    "count_other": "{{count}} items"
+  },
+  "payment": {
+    "purchase": "Purchase",
+    "processing": "Processing payment",
+    "success": {
+      "title": "Payment Complete",
+      "message": "Payment completed successfully!",
+      "description": "Your order has been processed successfully.",
+      "orderNumber": "Order Number",
+      "orderDate": "Order Date",
+      "merchant": "Merchant",
+      "amount": "Order Amount"
+    },
+    "pending": {
+      "title": "Processing Payment",
+      "message": "Waiting for payment approval",
+      "description": "Please wait. Your payment is being processed.",
+      "paymentNumber": "Payment Number",
+      "merchant": "Merchant",
+      "amount": "Payment Amount"
+    },
+    "failed": {
+      "title": "Payment Failed",
+      "message": "Payment failed",
+      "description": "Please try again or choose a different payment method.",
+      "orderNumber": "Order Number",
+      "merchant": "Merchant",
+      "amount": "Order Amount",
+      "reason": "Failure Reason"
+    }
+  },
+  "common": {
+    "retry": "Retry",
+    "home": "Go to Home",
+    "error": {
+      "title": "An error occurred",
+      "refresh": "Refresh"
+    }
+  }
+}

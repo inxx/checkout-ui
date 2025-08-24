@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 import { 
   MerchantDetailHeader,
   MerchantInfo,
@@ -8,11 +9,12 @@ import {
 } from '../features/merchants/components'
 import { useMerchant, useMerchantItems } from '../features/merchants/hooks/useMerchants'
 import { orderService } from '../shared/api/orderService'
-import type { SelectedProduct } from '../features/merchants/types'
+import type { SelectedProduct, Product } from '../features/merchants/types'
 
 export default function MerchantDetailPage() {
   const { id } = useParams<{ id: string }>()
   const navigate = useNavigate()
+  const { t } = useTranslation('common')
   const [selectedProducts, setSelectedProducts] = useState<SelectedProduct[]>([])
   const [isPaymentProcessing, setIsPaymentProcessing] = useState(false)
 
@@ -21,7 +23,7 @@ export default function MerchantDetailPage() {
   const { data: products = [], isLoading: productsLoading, error: productsError } = useMerchantItems(id || '')
 
   // 상품 선택/해제 핸들러
-  const handleProductSelect = (product: any, selected: boolean) => {
+  const handleProductSelect = (product: Product, selected: boolean) => {
     if (selected) {
       setSelectedProducts(prev => [
         ...prev,
@@ -108,8 +110,8 @@ export default function MerchantDetailPage() {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="text-center">
-          <h3 className="text-lg font-medium text-gray-900 mb-2">가맹점을 찾을 수 없습니다</h3>
-          <p className="text-gray-500">다시 시도해 주세요.</p>
+          <h3 className="text-lg font-medium text-gray-900 mb-2">{t('merchants.notFound')}</h3>
+          <p className="text-gray-500">{t('merchants.tryAgain')}</p>
         </div>
       </div>
     )

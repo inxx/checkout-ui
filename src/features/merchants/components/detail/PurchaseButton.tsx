@@ -1,3 +1,5 @@
+import { useTranslation } from 'react-i18next'
+import { useFormatting } from '../../../../hooks/useFormatting'
 import type { SelectedProduct } from '../types'
 
 interface PurchaseButtonProps {
@@ -11,6 +13,8 @@ export const PurchaseButton = ({
   onPurchase,
   disabled = false 
 }: PurchaseButtonProps) => {
+  const { t } = useTranslation('common')
+  const { formatCurrency } = useFormatting()
   // 총 가격 계산
   const totalPrice = selectedProducts.reduce(
     (sum, item) => sum + (item.product.price * item.quantity), 
@@ -43,20 +47,20 @@ export const PurchaseButton = ({
               <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
               <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
             </svg>
-            결제 처리 중...
+{t('payment.processing')}
           </div>
         ) : (
           <div className="flex items-center justify-between">
             <span>
-              구매하기
+{t('payment.purchase')}
               {hasSelectedProducts && (
                 <span className="ml-2 text-sm">
-                  ({totalItems}개)
+                  ({t('products.count', { count: totalItems })})
                 </span>
               )}
             </span>
             <span className="font-bold">
-              {hasSelectedProducts ? `${totalPrice.toLocaleString()}원` : '0원'}
+{hasSelectedProducts ? formatCurrency(totalPrice, 'KRW') : formatCurrency(0, 'KRW')}
             </span>
           </div>
         )}

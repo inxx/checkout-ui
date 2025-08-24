@@ -1,5 +1,7 @@
 import { useLocation, useNavigate } from 'react-router-dom'
 import { useEffect } from 'react'
+import { useTranslation } from 'react-i18next'
+import { useFormatting } from '../hooks/useFormatting'
 
 interface PaymentResultState {
   paymentId: string
@@ -12,6 +14,8 @@ interface PaymentResultState {
 export default function PaymentFailedPage() {
   const navigate = useNavigate()
   const location = useLocation()
+  const { t } = useTranslation('common')
+  const { formatCurrency } = useFormatting()
   const state = location.state as PaymentResultState | null
 
   useEffect(() => {
@@ -49,7 +53,7 @@ export default function PaymentFailedPage() {
       <div className="bg-white border-b border-gray-200">
         <div className="max-w-md mx-auto px-4 py-4">
           <div className="flex items-center justify-center">
-            <h1 className="text-lg font-semibold text-gray-900">결제 실패</h1>
+            <h1 className="text-lg font-semibold text-gray-900">{t('payment.failed.title')}</h1>
           </div>
         </div>
       </div>
@@ -62,24 +66,24 @@ export default function PaymentFailedPage() {
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
             </svg>
           </div>
-          <h2 className="text-xl font-bold text-gray-900 mb-2">결제에 실패했습니다</h2>
-          <p className="text-gray-600 mb-4">다시 시도하거나 다른 결제 수단을 선택해 주세요.</p>
+          <h2 className="text-xl font-bold text-gray-900 mb-2">{t('payment.failed.message')}</h2>
+          <p className="text-gray-600 mb-4">{t('payment.failed.description')}</p>
           
           <div className="bg-red-50 border border-red-200 rounded-lg p-4">
             <div className="flex justify-between items-center mb-2">
-              <span className="text-sm text-gray-600">주문 번호</span>
+              <span className="text-sm text-gray-600">{t('payment.failed.orderNumber')}</span>
               <span className="text-sm font-mono text-gray-900">{paymentId}</span>
             </div>
             <div className="flex justify-between items-center mb-2">
-              <span className="text-sm text-gray-600">가맹점</span>
+              <span className="text-sm text-gray-600">{t('payment.failed.merchant')}</span>
               <span className="text-sm text-gray-900">{merchantName}</span>
             </div>
             <div className="flex justify-between items-center mb-2">
-              <span className="text-sm text-gray-600">주문 금액</span>
-              <span className="text-sm text-gray-900">{totalAmount.toLocaleString()}원</span>
+              <span className="text-sm text-gray-600">{t('payment.failed.amount')}</span>
+              <span className="text-sm text-gray-900">{formatCurrency(totalAmount, 'KRW')}</span>
             </div>
             <div className="flex justify-between items-center">
-              <span className="text-sm text-gray-600">실패 사유</span>
+              <span className="text-sm text-gray-600">{t('payment.failed.reason')}</span>
               <span className="text-sm text-red-600 font-medium">{getFailureReason()}</span>
             </div>
           </div>
@@ -91,14 +95,14 @@ export default function PaymentFailedPage() {
             onClick={handleRetry}
             className="w-full py-3 px-4 bg-red-600 text-white rounded-lg font-medium hover:bg-red-700 transition-colors"
           >
-            다시 결제하기
+{t('common.retry')}
           </button>
           
           <button
             onClick={handleGoHome}
             className="w-full py-3 px-4 bg-white text-gray-700 border border-gray-300 rounded-lg font-medium hover:bg-gray-50 transition-colors"
           >
-            홈으로 가기
+{t('common.home')}
           </button>
         </div>
 

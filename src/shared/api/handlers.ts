@@ -140,14 +140,46 @@ export const handlers = [
         )
       }
       
-      // 랜덤하게 결제 결과 생성 (테스트용)
-      const statuses = ['PAID', 'DECLINED', 'PENDING']
-      const randomStatus = statuses[Math.floor(Math.random() * statuses.length)]
+      // 가맹점별 결제 방식 및 금액 기반 결제 처리 로직
+      let paymentStatus: string
       
-      console.log(`[API Mock] Payment result: ${randomStatus}`)
+      if (amount <= 0) {
+        return HttpResponse.json(
+          { error: '잘못된 결제 금액입니다.' },
+          { status: 422 }
+        )
+      }
+      
+      // 가맹점 정보 조회
+      const merchant = mockMerchants.find(m => m.id === merchantId)
+      
+      if (!merchant) {
+        return HttpResponse.json(
+          { error: '존재하지 않는 가맹점입니다.' },
+          { status: 404 }
+        )
+      }
+      
+      // 통화별 한도 계산 (KRW 기준으로 변환)
+      let amountInKRW = amount
+      if (currency === 'USD') {
+        amountInKRW = amount * 1300 // USD를 KRW로 변환
+      }
+      
+      // 가상계좌 전용 가맹점인 경우 무조건 PENDING
+      if (merchant.paymentMethod === 'virtual_account') {
+        paymentStatus = 'PENDING'
+        console.log(`[API Mock] Payment PENDING - Virtual account merchant: ${merchant.name}`)
+      } else if (amountInKRW >= 100000) {
+        paymentStatus = 'DECLINED' // 한도 초과
+        console.log(`[API Mock] Payment DECLINED - Amount over limit: ${amountInKRW} KRW (${amount} ${currency})`)
+      } else {
+        paymentStatus = 'PAID' // 일반 카드 결제 성공
+        console.log(`[API Mock] Payment PAID - Card payment: ${amountInKRW} KRW (${amount} ${currency}) at ${merchant.name}`)
+      }
       
       return HttpResponse.json({
-        status: randomStatus
+        status: paymentStatus
       })
     } catch (error) {
       console.error('[API Mock] Payment request error:', error)
