@@ -1,15 +1,12 @@
 import { useState } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { 
-  MerchantDetailHeader,
-  MerchantInfo,
-  ProductList,
-  PurchaseButton
-} from '../features/merchants/components'
-import { useMerchant, useMerchantItems } from '../features/merchants/hooks/useMerchants'
-import { orderService } from '../shared/api/orderService'
-import type { SelectedProduct, Product } from '../features/merchants/types'
+import { MerchantDetailHeader } from '../features/merchants/components/detail/MerchantDetailHeader'
+import { MerchantInfo } from '../features/merchants/components/detail/MerchantInfo'
+import { ProductList } from '../features/merchants/components/detail/ProductList'
+import { PurchaseButton } from '../features/merchants/components/detail/PurchaseButton'
+import { useMerchant, useProducts, useCreateOrder } from '../hooks/api'
+import type { SelectedProduct, Product } from '@/types'
 
 export default function MerchantDetailPage() {
   const { id } = useParams<{ id: string }>()
@@ -20,7 +17,8 @@ export default function MerchantDetailPage() {
 
   // API 호출
   const { data: merchant, isLoading: merchantLoading, error: merchantError } = useMerchant(id || '')
-  const { data: products = [], isLoading: productsLoading, error: productsError } = useMerchantItems(id || '')
+  const { data: products = [], isLoading: productsLoading, error: productsError } = useProducts(id || '')
+  const createOrder = useCreateOrder()
 
   // 상품 선택/해제 핸들러
   const handleProductSelect = (product: Product, selected: boolean) => {
@@ -53,7 +51,7 @@ export default function MerchantDetailPage() {
       // 실제 결제 API 호출
       console.log('[Payment] Calling order API with amount:', totalAmount)
       
-      const orderResponse = await orderService.createOrder({
+      const orderResponse = await createOrder.mutateAsync({
         merchantId: merchant.id,
         currency: 'KRW',
         amount: totalAmount

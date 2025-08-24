@@ -1,7 +1,7 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { useFormatting } from '../../../../hooks/useFormatting'
-import type { Product, SelectedProduct } from '../types'
+import type { Product, SelectedProduct } from '@/types'
 
 interface ProductListProps {
   products: Product[]

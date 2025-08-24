@@ -2,8 +2,8 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import { Providers } from './shared/lib/Providers'
-import { initializeApi } from './shared/lib/apiConfig'
-import MainPage from './pages/MainPage'
+import { initializeToken } from './shared/lib/generateToken'
+import { MerchantListPage } from './features/merchants/MerchantListPage'
 import MerchantDetailPage from './pages/MerchantDetailPage'
 import PaymentSuccessPage from './pages/PaymentSuccessPage'
 import PaymentFailedPage from './pages/PaymentFailedPage'
@@ -24,15 +24,15 @@ async function enableMocking() {
 }
 
 enableMocking().then(() => {
-  // API 토큰 제공자 초기화
-  initializeApi()
+  // 토큰 초기화
+  initializeToken()
   
   ReactDOM.createRoot(document.getElementById('root')!).render(
     <React.StrictMode>
       <Providers>
         <BrowserRouter>
           <Routes>
-            <Route path="/" element={<MainPage />} />
+            <Route path="/" element={<MerchantListPage />} />
             <Route path="/merchants" element={<Navigate to="/" replace />} />
             <Route path="/merchants/:id" element={<MerchantDetailPage />} />
             <Route path="/payment/result/paid" element={<PaymentSuccessPage />} />

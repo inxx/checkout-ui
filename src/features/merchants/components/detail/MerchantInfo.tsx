@@ -1,4 +1,4 @@
-import type { Merchant } from '../types'
+import type { Merchant } from '@/types'
 
 interface MerchantInfoProps {
   merchant: Merchant

@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next'
 import { useFormatting } from '../../../../hooks/useFormatting'
-import type { SelectedProduct } from '../types'
+import type { SelectedProduct } from '@/types'
 
 interface PurchaseButtonProps {
   selectedProducts: SelectedProduct[]

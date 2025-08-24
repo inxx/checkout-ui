@@ -1,4 +1,4 @@
-import type { Merchant, Product } from '@/features/merchants/types'
+import type { Merchant, Product } from '@/types'
 
 // 가맹점 목 데이터
 export const mockMerchants: Merchant[] = [

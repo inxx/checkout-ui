@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next'
-import type { SortOption } from '../types'
+import type { SortOption } from '@/types'
 
 interface SortDropdownProps {
   value: SortOption
