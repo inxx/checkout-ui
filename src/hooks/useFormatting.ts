@@ -1,7 +1,7 @@
 import { useTranslation } from 'react-i18next'
 
 // 상수 분리
-const EXCHANGE_RATE = 1300 // KRW to USD
+import { EXCHANGE_RATES } from '../shared/constants'
 
 export const useFormatting = () => {
   const { i18n } = useTranslation()
@@ -20,7 +20,7 @@ export const useFormatting = () => {
         currency: 'USD',
         minimumFractionDigits: 2,
         maximumFractionDigits: 2
-      }).format(amount / EXCHANGE_RATE)
+      }).format(amount / EXCHANGE_RATES.USD_TO_KRW)
     }
     
     const fractionDigits = currency === 'KRW' ? 0 : undefined

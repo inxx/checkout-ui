@@ -1,37 +1,31 @@
 import { useTranslation } from 'react-i18next'
 import { useFormatting } from '../../../../hooks/useFormatting'
-import type { SelectedProduct } from '@/types'
+import { useCartStore } from '../../../../stores/useCartStore'
 
 interface PurchaseButtonProps {
-  selectedProducts: SelectedProduct[]
+  merchantId: string
   onPurchase: () => void
   disabled?: boolean
 }
 
 export const PurchaseButton = ({ 
-  selectedProducts, 
+  merchantId,
   onPurchase,
   disabled = false 
 }: PurchaseButtonProps) => {
   const { t } = useTranslation('common')
   const { formatCurrency } = useFormatting()
-  // 총 가격 계산
-  const totalPrice = selectedProducts.reduce(
-    (sum, item) => sum + (item.product.price * item.quantity), 
-    0
-  )
-
-  // 선택된 상품 개수
-  const totalItems = selectedProducts.reduce(
-    (sum, item) => sum + item.quantity, 
-    0
-  )
+  const { getCurrentCart, getTotalAmount, getTotalItems } = useCartStore()
+  
+  const selectedProducts = getCurrentCart(merchantId)
+  const totalPrice = getTotalAmount(merchantId)
+  const totalItems = getTotalItems(merchantId)
 
   const hasSelectedProducts = selectedProducts.length > 0
   const isDisabled = disabled || !hasSelectedProducts
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 p-4 z-20">
+    <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-200 py-4 px-6 z-20">
       <button
         onClick={onPurchase}
         disabled={isDisabled}

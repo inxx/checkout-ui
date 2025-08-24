@@ -1,6 +1,7 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
 import { useFormatting } from '../../../../hooks/useFormatting'
+import { Button } from '../../../../components/Button'
 import type { Product, SelectedProduct } from '@/types'
 
 interface ProductListProps {
@@ -37,12 +38,13 @@ export const ProductList = ({
           </div>
           <h3 className="text-lg font-medium text-gray-900 mb-2">{t('products.notFound')}</h3>
           <p className="text-gray-500 text-sm mb-4">{error}</p>
-          <button 
+          <Button 
             onClick={() => window.location.reload()}
-            className="px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 transition-colors text-sm"
+            variant="danger"
+            size="sm"
           >
 {t('common.retry')}
-          </button>
+          </Button>
         </div>
       </div>
     )
@@ -57,7 +59,7 @@ export const ProductList = ({
         </div>
         <div className="space-y-1">
           {Array.from({ length: 5 }).map((_, i) => (
-            <div key={i} className="p-4 border-b border-gray-100">
+            <div key={i} className="py-4 px-6 border-b border-gray-100">
               <div className="flex items-center space-x-3">
                 <div className="w-5 h-5 bg-gray-200 rounded animate-pulse"></div>
                 <div className="flex-1">
@@ -97,7 +99,7 @@ export const ProductList = ({
             {products.map((product) => (
               <div 
                 key={product.id} 
-                className={`p-4 border-b border-gray-100 transition-colors ${
+                className={`py-4 px-6 border-b border-gray-100 transition-colors ${
                   !product.isAvailable ? 'bg-gray-50' : 'hover:bg-gray-50'
                 }`}
               >

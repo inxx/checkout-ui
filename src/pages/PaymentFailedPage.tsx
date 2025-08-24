@@ -2,6 +2,7 @@ import { useLocation, useNavigate } from 'react-router-dom'
 import { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useFormatting } from '../hooks/useFormatting'
+import { Button } from '../components/Button'
 
 interface PaymentResultState {
   paymentId: string
@@ -91,19 +92,23 @@ export default function PaymentFailedPage() {
 
         {/* 버튼들 */}
         <div className="space-y-3">
-          <button
+          <Button
             onClick={handleRetry}
-            className="w-full py-3 px-4 bg-red-600 text-white rounded-lg font-medium hover:bg-red-700 transition-colors"
+            variant="danger"
+            size="lg"
+            className="w-full"
           >
 {t('common.retry')}
-          </button>
+          </Button>
           
-          <button
+          <Button
             onClick={handleGoHome}
-            className="w-full py-3 px-4 bg-white text-gray-700 border border-gray-300 rounded-lg font-medium hover:bg-gray-50 transition-colors"
+            variant="secondary"
+            size="lg"
+            className="w-full"
           >
 {t('common.home')}
-          </button>
+          </Button>
         </div>
 
       </div>

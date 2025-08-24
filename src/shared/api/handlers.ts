@@ -1,6 +1,7 @@
 import { http, HttpResponse } from 'msw'
 import { generateToken } from '../lib/generateToken'
 import { mockMerchants, mockProducts } from './mockData'
+import { EXCHANGE_RATES, PAYMENT_LIMITS } from '../constants'
 
 export const handlers = [
   // 토큰 발급 API
@@ -163,14 +164,14 @@ export const handlers = [
       // 통화별 한도 계산 (KRW 기준으로 변환)
       let amountInKRW = amount
       if (currency === 'USD') {
-        amountInKRW = amount * 1300 // USD를 KRW로 변환
+        amountInKRW = amount * EXCHANGE_RATES.USD_TO_KRW
       }
       
       // 가상계좌 전용 가맹점인 경우 무조건 PENDING
       if (merchant.paymentMethod === 'virtual_account') {
         paymentStatus = 'PENDING'
         console.log(`[API Mock] Payment PENDING - Virtual account merchant: ${merchant.name}`)
-      } else if (amountInKRW >= 100000) {
+      } else if (amountInKRW >= PAYMENT_LIMITS.MAX_AMOUNT_KRW) {
         paymentStatus = 'DECLINED' // 한도 초과
         console.log(`[API Mock] Payment DECLINED - Amount over limit: ${amountInKRW} KRW (${amount} ${currency})`)
       } else {

@@ -2,6 +2,7 @@ import { useLocation, useNavigate } from 'react-router-dom'
 import { useEffect } from 'react'
 import { useTranslation } from 'react-i18next'
 import { useFormatting } from '../hooks/useFormatting'
+import { Button } from '../components/Button'
 
 interface PaymentResultState {
   paymentId: string
@@ -77,12 +78,13 @@ export default function PaymentSuccessPage() {
 
         {/* 버튼들 */}
         <div className="space-y-3">
-          <button
+          <Button
             onClick={handleGoHome}
-            className="w-full py-3 px-4 bg-blue-600 text-white rounded-lg font-medium hover:bg-blue-700 transition-colors"
+            size="lg"
+            className="w-full"
           >
 {t('common.home')}
-          </button>
+          </Button>
           
         </div>
 

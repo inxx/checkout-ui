@@ -7,6 +7,7 @@ import { MerchantCard } from './components/list/MerchantCard'
 import { MerchantListSkeleton } from './components/list/MerchantCardSkeleton'
 import { EmptyState } from './components/shared/EmptyState'
 import { LanguageSelector } from '../../components/LanguageSelector'
+import { Button } from '../../components/Button'
 import { useMerchants } from '../../hooks/api'
 import type { Merchant, SortOption } from '@/types'
 
@@ -37,7 +38,7 @@ export const MerchantListPage = () => {
     <div className="min-h-screen bg-gray-50">
       {/* 헤더 */}
       <header className="sticky top-0 z-10 bg-white border-b border-gray-200">
-        <div className="container mx-auto px-4">
+        <div className="mx-auto px-6">
           <div className="flex items-center justify-between h-14">
             <h1 className="text-lg font-semibold text-gray-900 truncate">
               {t('merchants.title')}
@@ -47,7 +48,7 @@ export const MerchantListPage = () => {
         </div>
       </header>
 
-      <div className="container mx-auto px-4 py-8">
+      <div className="mx-auto px-6 py-8">
 
         {/* 검색 */}
         <div className="bg-white rounded-lg shadow-sm p-6 mb-8">
@@ -87,12 +88,9 @@ export const MerchantListPage = () => {
             <EmptyState 
               title={t('common.error.title')}
               action={
-                <button
-                  onClick={() => window.location.reload()}
-                  className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors"
-                >
+                <Button onClick={() => window.location.reload()}>
                   {t('common.error.refresh')}
-                </button>
+                </Button>
               }
             />
           ) : isLoading ? (
@@ -102,12 +100,9 @@ export const MerchantListPage = () => {
               title={searchQuery ? t('merchants.empty.noResults') : t('merchants.empty.noMerchants')}
               action={
                 searchQuery ? (
-                  <button
-                    onClick={handleSearchReset}
-                    className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors"
-                  >
+                  <Button onClick={handleSearchReset}>
                     {t('merchants.empty.showAll')}
-                  </button>
+                  </Button>
                 ) : undefined
               }
             />

@@ -2,7 +2,7 @@ import React from 'react'
 import ReactDOM from 'react-dom/client'
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom'
 import { Providers } from './shared/lib/Providers'
-import { initializeToken } from './shared/lib/generateToken'
+import { initializeAuth } from './stores/useAuthStore'
 import { MerchantListPage } from './features/merchants/MerchantListPage'
 import MerchantDetailPage from './pages/MerchantDetailPage'
 import PaymentSuccessPage from './pages/PaymentSuccessPage'
@@ -24,8 +24,8 @@ async function enableMocking() {
 }
 
 enableMocking().then(() => {
-  // 토큰 초기화
-  initializeToken()
+  // 인증 시스템 초기화
+  initializeAuth()
   
   ReactDOM.createRoot(document.getElementById('root')!).render(
     <React.StrictMode>
