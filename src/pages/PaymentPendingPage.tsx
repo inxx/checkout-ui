@@ -23,17 +23,6 @@ export default function PaymentPendingPage() {
       return
     }
 
-
-    // 임시로 30초 후 성공으로 처리 (실제로는 폴링으로 결제 상태 확인)
-    const mockTimer = setTimeout(() => {
-      clearInterval(timer)
-      navigate('/payment/result/paid', { state })
-    }, 30000)
-
-    return () => {
-      clearInterval(timer)
-      clearTimeout(mockTimer)
-    }
   }, [state, navigate])
 
   if (!state) return null
