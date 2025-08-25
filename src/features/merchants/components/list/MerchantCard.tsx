@@ -7,10 +7,21 @@ interface MerchantCardProps {
 }
 
 export const MerchantCard = ({ merchant, onClick }: MerchantCardProps) => {
+  const handleKeyDown = (event: React.KeyboardEvent) => {
+    if (event.key === 'Enter' || event.key === ' ') {
+      event.preventDefault()
+      onClick(merchant)
+    }
+  }
+
   return (
     <div 
       onClick={() => onClick(merchant)}
-      className="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow cursor-pointer"
+      onKeyDown={handleKeyDown}
+      role="button"
+      tabIndex={0}
+      className="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow cursor-pointer focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+      aria-label={`${merchant.name} 가맹점 상세보기`}
     >
       {/* 이미지 영역 */}
       <div className="relative h-48 w-full">

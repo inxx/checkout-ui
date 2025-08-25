@@ -57,7 +57,7 @@ export const ProductList = ({
         <div className="p-6">
           <h3 className="text-lg font-semibold text-gray-900 mb-4">{t('products.title')}</h3>
         </div>
-        <div className="space-y-1">
+        <div>
           {Array.from({ length: 5 }).map((_, i) => (
             <div key={i} className="py-4 px-6 border-b border-gray-100">
               <div className="flex items-center space-x-3">
