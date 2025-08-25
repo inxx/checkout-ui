@@ -1,6 +1,6 @@
 export const MerchantCardSkeleton = () => {
   return (
-    <div className="bg-white rounded-lg shadow-md animate-pulse">
+    <div className="bg-white rounded-lg shadow-md animate-pulse" data-testid="merchant-skeleton">
       {/* 이미지 스켈레톤 */}
       <div className="h-48 w-full bg-gray-200 rounded-t-lg"></div>
       
