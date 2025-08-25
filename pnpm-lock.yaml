@@ -29,9 +29,6 @@ importers:
       react-router-dom:
         specifier: ^7.8.1
         version: 7.8.1(react-dom@18.2.0(react@18.2.0))(react@18.2.0)
-      zod:
-        specifier: ^4.0.17
-        version: 4.0.17
       zustand:
         specifier: ^5.0.8
         version: 5.0.8(@types/react@19.1.10)(react@18.2.0)
@@ -3133,9 +3130,6 @@ packages:
   yoctocolors-cjs@2.1.2:
     resolution: {integrity: sha512-cYVsTjKl8b+FrnidjibDWskAv7UKOfcwaVZdp/it9n1s9fU3IkgDbhdIRKCW4JDsAlECJY0ytoVPT3sK6kideA==}
     engines: {node: '>=18'}
-
-  zod@4.0.17:
-    resolution: {integrity: sha512-1PHjlYRevNxxdy2JZ8JcNAw7rX8V9P1AKkP+x/xZfxB0K5FYfuV+Ug6P/6NVSR2jHQ+FzDDoDHS04nYUsOIyLQ==}
 
   zustand@5.0.8:
     resolution: {integrity: sha512-gyPKpIaxY9XcO2vSMrLbiER7QMAMGOQZVRdJ6Zi782jkbzZygq5GI9nG8g+sMgitRtndwaBSl7uiqC49o1SSiw==}
@@ -6359,8 +6353,6 @@ snapshots:
   yocto-queue@1.2.1: {}
 
   yoctocolors-cjs@2.1.2: {}
-
-  zod@4.0.17: {}
 
   zustand@5.0.8(@types/react@19.1.10)(react@18.2.0):
     optionalDependencies:

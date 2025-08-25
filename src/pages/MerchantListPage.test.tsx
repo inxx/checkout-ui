@@ -2,7 +2,7 @@ import { render, screen, fireEvent, waitFor } from '@testing-library/react'
 import { BrowserRouter } from 'react-router-dom'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { MerchantListPage } from './MerchantListPage'
-import * as apiHooks from '../../hooks/api'
+import * as apiHooks from '../hooks/api'
 import type { Merchant } from '@/types'
 
 // React Router와 i18n 모킹
@@ -23,12 +23,12 @@ jest.mock('react-i18next', () => ({
 }))
 
 // LanguageSelector 컴포넌트 모킹
-jest.mock('../../components/LanguageSelector', () => ({
+jest.mock('../components/LanguageSelector', () => ({
   LanguageSelector: () => <div>Language Selector</div>
 }))
 
 // API 훅 모킹
-jest.mock('../../hooks/api')
+jest.mock('../hooks/api')
 
 const mockMerchants: Merchant[] = [
   {
