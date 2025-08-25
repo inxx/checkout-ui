@@ -21,7 +21,6 @@ export const useAuthStore = create<AuthState>()(
       isAuthenticated: false,
       
       setToken: (token: string) => {
-        console.log('[Auth Store] Setting token:', token.substring(0, 20) + '...')
         set({ 
           token, 
           isAuthenticated: true 
@@ -29,7 +28,6 @@ export const useAuthStore = create<AuthState>()(
       },
       
       clearAuth: () => {
-        console.log('[Auth Store] Clearing auth state')
         set({ 
           token: null, 
           isAuthenticated: false 
@@ -37,12 +35,10 @@ export const useAuthStore = create<AuthState>()(
       },
       
       refreshToken: async () => {
-        console.log('[Auth Store] Refreshing token...')
         try {
           // 가짜 토큰 재발급 (실제로는 API 호출)
           const newToken = generateToken()
           get().setToken(newToken)
-          console.log('[Auth Store] Token refreshed successfully')
         } catch (error) {
           console.error('[Auth Store] Token refresh failed:', error)
           get().clearAuth()
@@ -64,8 +60,5 @@ export const initializeAuth = () => {
   if (!token) {
     const newToken = generateToken()
     setToken(newToken)
-    console.log('[Auth Store] Generated initial token')
-  } else {
-    console.log('[Auth Store] Using existing token')
   }
 }

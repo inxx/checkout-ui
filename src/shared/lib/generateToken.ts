@@ -22,14 +22,11 @@ export const removeToken = (): void => {
 
 // 토큰 재발급 함수
 export const refreshToken = async (): Promise<string> => {
-  console.log('[Token] Refreshing token...')
-  
   try {
     // 실제로는 서버 API를 호출하여 토큰을 재발급 받음
     // 데모에서는 새로운 토큰을 생성
     const newToken = generateToken()
     saveToken(newToken)
-    console.log('[Token] Token refreshed successfully:', newToken)
     return newToken
   } catch (error) {
     console.error('[Token] Failed to refresh token:', error)
@@ -42,6 +39,5 @@ export const initializeToken = (): void => {
   if (!getToken()) {
     const token = generateToken()
     saveToken(token)
-    console.log('[Token] Generated demo token:', token)
   }
 }

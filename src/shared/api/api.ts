@@ -22,7 +22,6 @@ async function fetchApi<T>(endpoint: string, options: RequestInit = {}): Promise
   
   // 401 에러 시 토큰 재발급 시도
   if (response.status === 401) {
-    console.log('[API] 401 detected, attempting token refresh...')
     try {
       await useAuthStore.getState().refreshToken()
       

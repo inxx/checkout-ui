@@ -50,7 +50,6 @@ export default function MerchantDetailPage() {
   // 결제 성공 후 페이지 이동
   const navigateToResult = (status: string, paymentResult: any) => {
     const statusRoute = status.toLowerCase()
-    console.log(`[Payment] Navigating to: /payment/result/${statusRoute}`)
     
     navigate(`/payment/result/${statusRoute}`, {
       state: paymentResult
@@ -59,15 +58,12 @@ export default function MerchantDetailPage() {
 
   // 결제 API 호출
   const processPayment = async (totalAmount: number) => {
-    console.log('[Payment] Calling order API with amount:', totalAmount)
-    
     const orderResponse = await createOrder.mutateAsync({
       merchantId: merchant!.id,
       currency: 'KRW',
       amount: totalAmount
     })
     
-    console.log('[Payment] Order API response:', orderResponse)
     return orderResponse
   }
 
@@ -76,7 +72,6 @@ export default function MerchantDetailPage() {
     if (selectedProducts.length === 0 || !merchant) return
     
     setIsPaymentProcessing(true)
-    console.log('[Payment] Starting payment process for merchant:', merchant.id)
     
     const totalAmount = getTotalAmount(id!)
     
@@ -89,7 +84,6 @@ export default function MerchantDetailPage() {
       // 결제 성공 시 해당 가맹점 장바구니만 초기화
       if (orderResponse.status === 'PAID') {
         clearMerchantCart(id!)
-        console.log(`[Payment] Cart cleared for merchant ${id} after successful payment`)
       }
       
       navigateToResult(orderResponse.status, paymentResult)

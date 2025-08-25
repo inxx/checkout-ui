@@ -114,12 +114,9 @@ export const handlers = [
   http.post('/api/orders', async ({ request }) => {
     await new Promise((resolve) => setTimeout(resolve, 800))
     
-    console.log('[API Mock] Processing payment request...')
-    
     // 인증 토큰 확인
     const authHeader = request.headers.get('authorization')
     if (!authHeader || !authHeader.startsWith('Bearer ')) {
-      console.log('[API Mock] Payment request failed: No auth token')
       return HttpResponse.json(
         { error: '인증이 필요합니다.' },
         { status: 401 }
@@ -128,13 +125,11 @@ export const handlers = [
     
     try {
       const body = await request.json()
-      console.log('[API Mock] Payment request body:', body)
       
       const { merchantId, currency, amount } = body
       
       // 필수 필드 검증
       if (!merchantId || !currency || !amount) {
-        console.log('[API Mock] Payment request failed: Missing required fields')
         return HttpResponse.json(
           { error: '필수 필드가 누락되었습니다.' },
           { status: 400 }
@@ -170,13 +165,10 @@ export const handlers = [
       // 가상계좌 전용 가맹점인 경우 무조건 PENDING
       if (merchant.paymentMethod === 'virtual_account') {
         paymentStatus = 'PENDING'
-        console.log(`[API Mock] Payment PENDING - Virtual account merchant: ${merchant.name}`)
       } else if (amountInKRW >= PAYMENT_LIMITS.MAX_AMOUNT_KRW) {
         paymentStatus = 'DECLINED' // 한도 초과
-        console.log(`[API Mock] Payment DECLINED - Amount over limit: ${amountInKRW} KRW (${amount} ${currency})`)
       } else {
         paymentStatus = 'PAID' // 일반 카드 결제 성공
-        console.log(`[API Mock] Payment PAID - Card payment: ${amountInKRW} KRW (${amount} ${currency}) at ${merchant.name}`)
       }
       
       return HttpResponse.json({

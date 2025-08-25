@@ -95,7 +95,7 @@ export const ProductList = ({
             <p className="text-lg font-medium text-gray-900 mb-1">{t('products.empty')}</p>
           </div>
         ) : (
-          <div className="space-y-1">
+          <div>
             {products.map((product) => (
               <div 
                 key={product.id} 
